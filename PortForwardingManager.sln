@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortForwardingManager", "PortForwardingManager\PortForwardingManager.csproj", "{8A2E8E94-8172-4FC8-A187-A6D03741FC51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotificationArea", "NotificationArea\NotificationArea.csproj", "{1FC4F554-F58D-4179-A7ED-E3C97CA65B5B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8A2E8E94-8172-4FC8-A187-A6D03741FC51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A2E8E94-8172-4FC8-A187-A6D03741FC51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A2E8E94-8172-4FC8-A187-A6D03741FC51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FC4F554-F58D-4179-A7ED-E3C97CA65B5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FC4F554-F58D-4179-A7ED-E3C97CA65B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FC4F554-F58D-4179-A7ED-E3C97CA65B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FC4F554-F58D-4179-A7ED-E3C97CA65B5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
