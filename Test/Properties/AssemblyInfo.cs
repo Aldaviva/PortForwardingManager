@@ -1,15 +1,14 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PortForwardingManager")]
-[assembly: AssemblyDescription("Before launching µTorrent, set its listening port to the Private Internet Access forwarded port.")]
+[assembly: AssemblyTitle("Test")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Ben's World")]
-[assembly: AssemblyProduct("PortForwardingManager")]
+[assembly: AssemblyProduct("Test")]
 [assembly: AssemblyCopyright("Copyright © Ben's World 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8a2e8e94-8172-4fc8-a187-a6d03741fc51")]
+[assembly: Guid("9ce817fd-c42e-4022-acca-2ec04c5a16bb")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -34,5 +33,3 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-
-[assembly: InternalsVisibleTo("Test")]

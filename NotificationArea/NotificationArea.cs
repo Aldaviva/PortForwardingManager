@@ -6,12 +6,17 @@ using System.Runtime.InteropServices;
 
 namespace NotificationArea
 {
+    public interface NotificationArea
+    {
+        IEnumerable<NotificationIcon> NotificationIcons { get; }
+    }
+
     /// <summary>
     /// From https://stackoverflow.com/questions/33652756/how-to-get-the-processes-that-have-systray-icon
     /// </summary>
-    public static class NotificationArea
+    public class NotificationAreaImpl: NotificationArea
     {
-        public static IEnumerable<NotificationIcon> NotificationIcons => FindProcessInSystray();
+        public IEnumerable<NotificationIcon> NotificationIcons => FindProcessInSystray();
 
         private static IEnumerable<NotificationIcon> FindProcessInSystray()
         {
