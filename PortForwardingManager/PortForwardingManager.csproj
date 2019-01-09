@@ -36,8 +36,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject>PortForwardingManager.PortForwardingManager</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>ico2.ico</ApplicationIcon>

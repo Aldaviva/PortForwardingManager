@@ -53,7 +53,8 @@ namespace PortForwardingManager.μTorrent
         public void LaunchμTorrent(IEnumerable<string> args)
         {
             string arguments = CommandLine.ArgvToCommandLine(args);
-            LocalProcessService.Start(Path.Combine(μTorrentData.InstallationDirectory, μTorrentData.ExecutableFilename), arguments);
+            LocalProcessService.Start(μTorrentData.AbsoluteExecutablePath, arguments);
         }
+        
     }
 }

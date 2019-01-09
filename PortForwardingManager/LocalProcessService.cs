@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 
 namespace PortForwardingManager
 {
@@ -17,7 +19,19 @@ namespace PortForwardingManager
 
         public Process Start(string fileName, string arguments)
         {
-            return Process.Start(fileName, arguments);
+            try
+            {
+                return Process.Start(fileName, arguments);
+            }
+            catch (Win32Exception e)
+            {
+                if (e.ErrorCode == -2147467259)
+                {
+                    throw new FileNotFoundException("Could not start process", fileName, e);
+                }
+
+                throw;
+            }
         }
     }
 }

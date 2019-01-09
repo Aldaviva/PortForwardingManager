@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Windows.Forms;
 using PortForwardingManager.PIA;
 using PortForwardingManager.μTorrent;
 
@@ -12,6 +14,7 @@ namespace PortForwardingManager
 
         public static void Main(string[] args)
         {
+            Application.EnableVisualStyles();
             new PortForwardingManager().UpdateSettingsAndLaunch(args);
         }
 
@@ -28,16 +31,27 @@ namespace PortForwardingManager
                 {
                     ErrorReportingService.ReportError("Error setting μTorrent listening port",
                         "Could not read forwarded port from Private Internet Access notification icon tooltip.\r\n\r\n" +
-                        "Make sure PIA has \"Request port forwarding\" enabled and is connected to one of the regions that supports port forwarding, like CA Toronto.");
+                        "Make sure PIA has \"Request port forwarding\" enabled and is connected to one of the regions that supports port forwarding, like Toronto or Vancouver.",
+                        MessageBoxIcon.Warning);
                 }
                 catch (PrivateInternetAccessException.NoNotificationIcon)
                 {
                     ErrorReportingService.ReportError("Error setting μTorrent listening port",
-                        "Could not find Private Internet Access icon in the notification area.\r\n\r\nMake sure PIA is running.");
+                        "Could not find Private Internet Access icon in the notification area.\r\n\r\nMake sure PIA is running.",
+                        MessageBoxIcon.Warning);
                 }
             }
 
-            μTorrentService.LaunchμTorrent(args);
+            try
+            {
+                μTorrentService.LaunchμTorrent(args);
+            }
+            catch (FileNotFoundException e)
+            {
+                ErrorReportingService.ReportError("Error starting μTorrent",
+                    $"μTorrent could not be started because the file {e.FileName} was not found.\r\n\r\n" +
+                    "Make sure μTorrent is installed in that directory.", MessageBoxIcon.Error);
+            }
         }
     }
 }
