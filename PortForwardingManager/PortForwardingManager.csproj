@@ -62,12 +62,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NotificationArea\NotificationArea.csproj">
-      <Project>{1fc4f554-f58d-4179-a7ed-e3c97ca65b5b}</Project>
-      <Name>NotificationArea</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="ico2.ico" />
   </ItemGroup>
   <ItemGroup />

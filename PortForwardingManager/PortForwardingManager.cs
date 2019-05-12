@@ -34,10 +34,11 @@ namespace PortForwardingManager
                         "Make sure PIA has \"Request port forwarding\" enabled and is connected to one of the regions that supports port forwarding, like Toronto or Vancouver.",
                         MessageBoxIcon.Warning);
                 }
-                catch (PrivateInternetAccessException.NoNotificationIcon)
+                
+                catch (PrivateInternetAccessException.NoDaemonLogFile)
                 {
                     ErrorReportingService.ReportError("Error setting μTorrent listening port",
-                        "Could not find Private Internet Access icon in the notification area.\r\n\r\nMake sure PIA is running.",
+                        "Failed to read log file.\r\n\r\nMake sure Debug Logging is enabled on the Help page of PIA's Settings.",
                         MessageBoxIcon.Warning);
                 }
             }

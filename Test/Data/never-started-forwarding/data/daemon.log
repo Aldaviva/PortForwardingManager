@@ -1,0 +1,2 @@
+﻿[2019-05-12 00:11:52.076][0e94][openvpn.mgmt][connection.cpp:408][debug] >STATE:1557619912,ADD_ROUTES,,,,,,
+[2019-05-12 00:11:52.077][0e94][openvpn.mgmt][connection.cpp:408][debug] >STATE:1557619912,CONNECTED,SUCCESS,10.21.11.6,172.83.40.100,8080,,

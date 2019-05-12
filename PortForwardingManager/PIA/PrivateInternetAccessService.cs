@@ -1,9 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using NotificationArea;
 
 namespace PortForwardingManager.PIA
 {
@@ -16,64 +13,49 @@ namespace PortForwardingManager.PIA
         /// <exception cref="PrivateInternetAccessException.NoForwardedPort">If PIA is running but not forwarding any
         /// ports (possibly because it's still starting up, it's connected to a VPN server that does not allow port
         /// forwarding, or the local PIA settings have port forwarding disabled).</exception>
-        /// <exception cref="PrivateInternetAccessException.NoNotificationIcon">If PIA is not running or its tray
-        /// icon is hidden.</exception>
+        /// <exception cref="PrivateInternetAccessException.NoDaemonLogFile">If the daemon debug log file does not
+        /// exist because PIA debug logging is disabled.</exception>
         ushort GetPrivateInternetAccessForwardedPort();
     }
 
     public class PrivateInternetAccessServiceImpl : PrivateInternetAccessService
     {
-        internal NotificationArea.NotificationArea NotificationArea = new NotificationAreaImpl();
-
-        /// <inheritdoc />
-        /// <remarks>This isn't tested and error cases aren't handled cleanly because it's a temporary fix until the rewritten
-        /// PIA client is released (which is in beta as of 2019-01-08).</remarks>
         public ushort GetPrivateInternetAccessForwardedPort()
         {
-            string logFileName = Path.Combine(PrivateInternetAccessData.LogDirectory, "pia_manager.log");
+            string logFileName = Path.Combine(PrivateInternetAccessData.DataDirectory, "daemon.log");
             string logFileContents;
             try
             {
+                // Using the simpler File.ReadAllText() throws an IOException because the log file is locked for writing by PIA.
                 using (FileStream fileStream = File.Open(logFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 using (var reader = new StreamReader(fileStream))
                 {
                     logFileContents = reader.ReadToEnd();
                 }
             }
-            catch (IOException e)
+            catch (IOException)
             {
-                MessageBox.Show(e.Message, "Failed to read log file");
-                throw;
+                throw new PrivateInternetAccessException.NoDaemonLogFile();
             }
 
             Match match = Regex.Match(logFileContents, PrivateInternetAccessData.LOG_PATTERN, RegexOptions.RightToLeft);
-            return ushort.Parse(match.Groups[1].Value);
-        }
-
-        /// <summary>
-        /// Private Internet Access v82 for Windows removed the tooltip "for consistency across platforms"
-        /// </summary>
-        /// <remarks>https://www.privateinternetaccess.com/pages/downloads#v82</remarks>
-        [Obsolete("Use GetPrivateInternetAccessForwardedPort() instead")]
-        public ushort GetPrivateInternetAccessForwardedPortWithTooltip()
-        {
-            try
+            if (match.Success)
             {
-                NotificationIcon μTorrentNotificationIcon = NotificationArea.NotificationIcons.First(
-                    notificationIcon => notificationIcon.ProcessName == PrivateInternetAccessData.ExecutableBasename);
-
-                Match match = Regex.Match(μTorrentNotificationIcon.ToolTip, PrivateInternetAccessData.TOOLTIP_PATTERN);
-
-                if (!match.Success)
+                int forwardedPortNumber = int.Parse(match.Groups[1].Value);
+                if (forwardedPortNumber > 0)
                 {
+                    return (ushort) forwardedPortNumber;
+                }
+                else
+                {
+                    // forwarded port is -1 or 0, which means port forwarding is not enabled
                     throw new PrivateInternetAccessException.NoForwardedPort();
                 }
-
-                return ushort.Parse(match.Groups[1].Value);
             }
-            catch (InvalidOperationException)
+            else
             {
-                throw new PrivateInternetAccessException.NoNotificationIcon();
+                // no port forwarding log statements found
+                throw new PrivateInternetAccessException.NoForwardedPort();
             }
         }
     }
@@ -88,7 +70,7 @@ namespace PortForwardingManager.PIA
         {
         }
 
-        public class NoNotificationIcon : PrivateInternetAccessException
+        public class NoDaemonLogFile : PrivateInternetAccessException
         {
         }
     }

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using FakeItEasy;
 using PortForwardingManager;
 using PortForwardingManager.PIA;
@@ -43,20 +45,34 @@ namespace Test
 
             A.CallTo(() => μTorrent.SetμTorrentListeningPort(A<ushort>._)).MustNotHaveHappened();
             A.CallTo(() => μTorrent.LaunchμTorrent(A<IEnumerable<string>>._)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => errorReportingService.ReportError(A<string>._, A<string>._)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => errorReportingService.ReportError(A<string>._, A<string>._, A<MessageBoxIcon>._)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
-        public void DoNotUpdateSettingsWhenNoPiaNotificationIcon()
+        public void DoNotUpdateSettingsWhenNoPiaDaemonLogFile()
         {
             A.CallTo(() => μTorrent.IsμTorrentAlreadyRunning()).Returns(false);
-            A.CallTo(() => pia.GetPrivateInternetAccessForwardedPort()).Throws<PrivateInternetAccessException.NoNotificationIcon>();
+            A.CallTo(() => pia.GetPrivateInternetAccessForwardedPort()).Throws<PrivateInternetAccessException.NoDaemonLogFile>();
 
             launcher.UpdateSettingsAndLaunch(Enumerable.Empty<string>());
 
             A.CallTo(() => μTorrent.SetμTorrentListeningPort(A<ushort>._)).MustNotHaveHappened();
             A.CallTo(() => μTorrent.LaunchμTorrent(A<IEnumerable<string>>._)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => errorReportingService.ReportError(A<string>._, A<string>._)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => errorReportingService.ReportError(A<string>._, A<string>._, A<MessageBoxIcon>._)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public void CannotFindμTorrent()
+        {
+            A.CallTo(() => μTorrent.IsμTorrentAlreadyRunning()).Returns(false);
+            A.CallTo(() => pia.GetPrivateInternetAccessForwardedPort()).Returns((ushort) 12345);
+            A.CallTo(() => μTorrent.LaunchμTorrent(A<IEnumerable<string>>._)).Throws<FileNotFoundException>();
+
+            launcher.UpdateSettingsAndLaunch(Enumerable.Empty<string>());
+
+            A.CallTo(() => μTorrent.SetμTorrentListeningPort(A<ushort>._)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => μTorrent.LaunchμTorrent(A<IEnumerable<string>>._)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => errorReportingService.ReportError(A<string>._, A<string>._, A<MessageBoxIcon>._)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
