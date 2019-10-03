@@ -39,7 +39,7 @@ namespace Test
         public void DoNotUpdateSettingsWhenPiaNotPortFowarding()
         {
             A.CallTo(() => μTorrent.IsμTorrentAlreadyRunning()).Returns(false);
-            A.CallTo(() => pia.GetPrivateInternetAccessForwardedPort()).Throws<PrivateInternetAccessException.NoForwardedPort>();
+            A.CallTo(() => pia.GetPrivateInternetAccessForwardedPort()).Throws<PrivateInternetAccessException.UnknownForwardedPort>();
 
             launcher.UpdateSettingsAndLaunch(Enumerable.Empty<string>());
 

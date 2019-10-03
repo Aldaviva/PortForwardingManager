@@ -24,7 +24,7 @@ namespace Test
 
             Action thrower = () => service.GetPrivateInternetAccessForwardedPort();
             
-            thrower.Should().Throw<PrivateInternetAccessException.NoForwardedPort>();
+            thrower.Should().Throw<PrivateInternetAccessException.UnknownForwardedPort>();
         }
         [Fact]
         public void GetPrivateInternetAccessForwardedPortNeverStartedForwarding()
@@ -33,7 +33,7 @@ namespace Test
 
             Action thrower = () => service.GetPrivateInternetAccessForwardedPort();
             
-            thrower.Should().Throw<PrivateInternetAccessException.NoForwardedPort>();
+            thrower.Should().Throw<PrivateInternetAccessException.UnknownForwardedPort>();
         }
 
         [Fact]
