@@ -8,7 +8,7 @@ namespace PortForwardingManager {
 
     public class PortForwardingManager {
 
-        internal PrivateInternetAccessService PrivateInternetAccessService = new PrivateInternetAccessServiceImpl();
+        internal PrivateInternetAccessService PrivateInternetAccessService = new ControlForkingPrivateInternetAccessService();
         internal μTorrentService μTorrentService = new μTorrentServiceImpl();
         internal ErrorReportingService ErrorReportingService = new ErrorReportingServiceImpl();
 
@@ -24,10 +24,8 @@ namespace PortForwardingManager {
                     μTorrentService.SetμTorrentListeningPort(listeningPort);
                 } catch (PrivateInternetAccessException.UnknownForwardedPort) {
                     ErrorReportingService.ReportError("Error reading PIA forwarded port",
-                        "Could not read forwarded port from Private Internet Access log file.\r\n\r\n" +
-                        "Make sure PIA has \"Request port forwarding\" enabled and is connected to one of the regions that supports " +
-                        "port forwarding, like Toronto or Vancouver.",
-                        MessageBoxIcon.Warning);
+                        "Could not read forwarded port from Private Internet Access control program.\r\n\r\n" +
+                        "Make sure Private Internet Access v1.6 or later is installed.", MessageBoxIcon.Warning);
                 } catch (PrivateInternetAccessException.NoDaemonLogFile) {
                     ErrorReportingService.ReportError("PIA debug logging is disabled",
                         "Failed to read log file.\r\n\r\nMake sure Debug Logging is enabled on the Help page of PIA's Settings.",

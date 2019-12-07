@@ -67,6 +67,8 @@
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="ErrorReportingService.cs" />
     <Compile Include="LocalProcessService.cs" />
+    <Compile Include="PIA\ControlForkingPrivateInternetAccessService.cs" />
+    <Compile Include="PIA\LogReadingPrivateInternetAccessServiceImpl.cs" />
     <Compile Include="PIA\PrivateInternetAccessData.cs" />
     <Compile Include="PIA\PrivateInternetAccessService.cs" />
     <Compile Include="μTorrent\μTorrentData.cs" />

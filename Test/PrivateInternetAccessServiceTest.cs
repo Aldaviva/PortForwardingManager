@@ -7,7 +7,7 @@ namespace Test
 {
     public class PrivateInternetAccessServiceTest
     {
-        private readonly PrivateInternetAccessServiceImpl service = new PrivateInternetAccessServiceImpl();
+        private readonly LogReadingPrivateInternetAccessServiceImpl service = new LogReadingPrivateInternetAccessServiceImpl();
 
         [Fact]
         public void GetPrivateInternetAccessForwardedPortSuccess()
