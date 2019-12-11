@@ -5,43 +5,44 @@ using Xunit;
 
 namespace Test
 {
-    public class PrivateInternetAccessServiceTest
+    public class LogReadingPrivateInternetAccessServiceTest
     {
         private readonly LogReadingPrivateInternetAccessServiceImpl service = new LogReadingPrivateInternetAccessServiceImpl();
 
-        [Fact]
-        public void GetPrivateInternetAccessForwardedPortSuccess()
+        [Fact(Skip = "deprecated")]
+        public void getPrivateInternetAccessForwardedPortSuccess()
         {
             PrivateInternetAccessData.InstallationDirectory = @"Data\forwarding\";
 
-            service.GetPrivateInternetAccessForwardedPort().Should().Be(54473);
+            service.getPrivateInternetAccessForwardedPort().Should().Be(54473);
         }
 
-        [Fact]
-        public void GetPrivateInternetAccessForwardedPortNotForwarding()
+        [Fact(Skip = "deprecated")]
+        public void getPrivateInternetAccessForwardedPortNotForwarding()
         {
             PrivateInternetAccessData.InstallationDirectory = @"Data\not-forwarding\";
 
-            Action thrower = () => service.GetPrivateInternetAccessForwardedPort();
+            Action thrower = () => service.getPrivateInternetAccessForwardedPort();
             
             thrower.Should().Throw<PrivateInternetAccessException.UnknownForwardedPort>();
         }
-        [Fact]
-        public void GetPrivateInternetAccessForwardedPortNeverStartedForwarding()
+
+        [Fact(Skip = "deprecated")]
+        public void getPrivateInternetAccessForwardedPortNeverStartedForwarding()
         {
             PrivateInternetAccessData.InstallationDirectory = @"Data\never-started-forwarding\";
 
-            Action thrower = () => service.GetPrivateInternetAccessForwardedPort();
+            Action thrower = () => service.getPrivateInternetAccessForwardedPort();
             
             thrower.Should().Throw<PrivateInternetAccessException.UnknownForwardedPort>();
         }
 
-        [Fact]
-        public void GetPrivateInternetAccessForwardedPortNoDaemonLogFile()
+        [Fact(Skip = "deprecated")]
+        public void getPrivateInternetAccessForwardedPortNoDaemonLogFile()
         {
             PrivateInternetAccessData.InstallationDirectory = @"Data\debug-disabled\";
 
-            Action thrower = () => service.GetPrivateInternetAccessForwardedPort();
+            Action thrower = () => service.getPrivateInternetAccessForwardedPort();
 
             thrower.Should().Throw<PrivateInternetAccessException.NoDaemonLogFile>();
         }

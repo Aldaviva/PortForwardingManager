@@ -6,18 +6,18 @@ namespace PortForwardingManager
 {
     public interface LocalProcessService
     {
-        Process[] GetProcessesByName(string processName);
-        Process Start(string fileName, string arguments);
+        Process[] getProcessesByName(string processName);
+        Process start(string fileName, string arguments);
     }
 
     public class LocalProcessServiceImpl : LocalProcessService
     {
-        public Process[] GetProcessesByName(string processName)
+        public Process[] getProcessesByName(string processName)
         {
             return Process.GetProcessesByName(processName);
         }
 
-        public Process Start(string fileName, string arguments)
+        public Process start(string fileName, string arguments)
         {
             try
             {

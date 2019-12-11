@@ -7,18 +7,18 @@ namespace Test
 {
     public class μTorrentDataTest
     {
-        private μTorrentData μTorrentData = new μTorrentData();
+        private readonly μTorrentData μTorrentData = new μTorrentData();
 
         [Fact]
-        public void ExecutableBasename()
+        public void executableBasename()
         {
-            μTorrentData.ExecutableBasename.Should().Be("uTorrent");
+            μTorrentData.executableBasename.Should().Be("uTorrent");
         }
 
         [Fact]
-        public void InstallationDirectory()
+        public void installationDirectory()
         {
-            μTorrentData.InstallationDirectory.Should()
+            μTorrentData.installationDirectory.Should()
                 .Be(Environment.ExpandEnvironmentVariables(@"C:\Program Files (x86)\uTorrent\"));
         }
     }

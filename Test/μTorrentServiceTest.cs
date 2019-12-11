@@ -21,52 +21,52 @@ namespace Test
             service.LocalProcessService = localProcessService;
             service.μTorrentData = μTorrentData;
 
-            A.CallTo(() => μTorrentData.InstallationDirectory).CallsBaseMethod();
+            A.CallTo(() => μTorrentData.installationDirectory).CallsBaseMethod();
         }
 
         [Fact]
-        public void IsμTorrentAlreadyRunningTrue()
+        public void isμTorrentAlreadyRunningTrue()
         {
-            A.CallTo(() => localProcessService.GetProcessesByName("uTorrent")).Returns(new[] { new Process() });
+            A.CallTo(() => localProcessService.getProcessesByName("uTorrent")).Returns(new[] { new Process() });
 
-            service.IsμTorrentAlreadyRunning().Should().BeTrue();
+            service.isμTorrentAlreadyRunning().Should().BeTrue();
         }
 
         [Fact]
-        public void IsμTorrentAlreadyRunningFalse()
+        public void isμTorrentAlreadyRunningFalse()
         {
-            A.CallTo(() => localProcessService.GetProcessesByName("uTorrent")).Returns(new Process[0]);
+            A.CallTo(() => localProcessService.getProcessesByName("uTorrent")).Returns(new Process[0]);
 
-            service.IsμTorrentAlreadyRunning().Should().BeFalse();
+            service.isμTorrentAlreadyRunning().Should().BeFalse();
         }
 
         [Fact]
-        public void LaunchμTorrentNoArgs()
+        public void launchμTorrentNoArgs()
         {
-            service.LaunchμTorrent(Enumerable.Empty<string>());
+            service.launchμTorrent(Enumerable.Empty<string>());
 
             string expectedFileName = Environment.ExpandEnvironmentVariables(@"C:\Program Files (x86)\uTorrent\uTorrent.exe");
-            A.CallTo(() => localProcessService.Start(expectedFileName, "")).MustHaveHappenedOnceExactly();
+            A.CallTo(() => localProcessService.start(expectedFileName, "")).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
-        public void LaunchμTorrentWithMagnetUri()
+        public void launchμTorrentWithMagnetUri()
         {
-            service.LaunchμTorrent(new []{ @"magnet:?xt=urn:btih:OQY2S2NTI7QUXOTEDM2RPQBE662A3637" });
+            service.launchμTorrent(new []{ @"magnet:?xt=urn:btih:OQY2S2NTI7QUXOTEDM2RPQBE662A3637" });
 
             string expectedFileName = Environment.ExpandEnvironmentVariables(@"C:\Program Files (x86)\uTorrent\uTorrent.exe");
-            A.CallTo(() => localProcessService.Start(expectedFileName, @"""magnet:?xt=urn:btih:OQY2S2NTI7QUXOTEDM2RPQBE662A3637""")).MustHaveHappenedOnceExactly();
+            A.CallTo(() => localProcessService.start(expectedFileName, @"""magnet:?xt=urn:btih:OQY2S2NTI7QUXOTEDM2RPQBE662A3637""")).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
-        public void SetμTorrentListeningPort()
+        public void setμTorrentListeningPort()
         {
-            A.CallTo(() => μTorrentData.InstallationDirectory).Returns(@"Data");
+            A.CallTo(() => μTorrentData.installationDirectory).Returns(@"Data");
 
             File.Delete(@"Data\settings.dat");
             File.Copy(@"Data\settings-before.dat", @"Data\settings.dat");
 
-            service.SetμTorrentListeningPort(6789);
+            service.setμTorrentListeningPort(6789);
 
             byte[] actual = File.ReadAllBytes(@"Data\settings.dat");
             byte[] expected = File.ReadAllBytes(@"Data\settings-expected.dat");
@@ -76,16 +76,16 @@ namespace Test
         }
 
         [Fact]
-        public void DoNothingIfSettingsAreAlreadyCorrect()
+        public void doNothingIfSettingsAreAlreadyCorrect()
         {
-            A.CallTo(() => μTorrentData.InstallationDirectory).Returns(@"Data");
+            A.CallTo(() => μTorrentData.installationDirectory).Returns(@"Data");
 
             File.Delete(@"Data\settings.dat");
             File.Copy(@"Data\settings-expected.dat", @"Data\settings.dat");
 
             DateTime lastModified = File.GetLastWriteTimeUtc(@"Data\settings.dat");
 
-            service.SetμTorrentListeningPort(6789);
+            service.setμTorrentListeningPort(6789);
 
             File.GetLastWriteTimeUtc(@"Data\settings.dat").Should()
                 .Be(lastModified, "file should not have been modified by service");

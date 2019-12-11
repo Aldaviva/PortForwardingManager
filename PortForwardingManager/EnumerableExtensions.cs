@@ -5,7 +5,7 @@ namespace PortForwardingManager
 {
     internal static class EnumerableExtensions
     {
-        internal static IEnumerable<T> Splice<T>(this IEnumerable<T> source, int start, int count, IEnumerable<T> newElements = null)
+        internal static IEnumerable<T> splice<T>(this IEnumerable<T> source, int start, int count, IEnumerable<T> newElements = null)
         {
             IEnumerable<T> enumerated = source.ToList();
             IEnumerable<T> before = enumerated.Take(start);

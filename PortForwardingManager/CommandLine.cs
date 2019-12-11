@@ -9,7 +9,7 @@ namespace PortForwardingManager
     /// </summary>
     internal static class CommandLine
     {
-        public static string ArgvToCommandLine(IEnumerable<string> args)
+        public static string argvToCommandLine(IEnumerable<string> args)
         {
             var sb = new StringBuilder();
             foreach (string s in args)
@@ -32,21 +32,21 @@ namespace PortForwardingManager
                     }
 
                     sb.Append(s, searchIndex, quoteIndex - searchIndex);
-                    EscapeBackslashes(sb, s, quoteIndex - 1);
+                    escapeBackslashes(sb, s, quoteIndex - 1);
                     sb.Append('\\');
                     sb.Append('"');
                     searchIndex = quoteIndex + 1;
                 }
 
                 sb.Append(s, searchIndex, s.Length - searchIndex);
-                EscapeBackslashes(sb, s, s.Length - 1);
+                escapeBackslashes(sb, s, s.Length - 1);
                 sb.Append(@""" ");
             }
 
             return sb.ToString(0, Math.Max(0, sb.Length - 1));
         }
 
-        private static void EscapeBackslashes(StringBuilder sb, string s, int lastSearchIndex)
+        private static void escapeBackslashes(StringBuilder sb, string s, int lastSearchIndex)
         {
             // Backslashes must be escaped if and only if they precede a double quote.
             for (int i = lastSearchIndex; i >= 0; i--)

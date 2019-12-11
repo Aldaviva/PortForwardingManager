@@ -14,7 +14,7 @@ namespace PortForwardingManager.PIA {
         /// exist because PIA debug logging is disabled or the installation directory is incorrect.</exception>
         /// <exception cref="PrivateInternetAccessException.PortForwardingDisabled">If PIA has port forwarding disabled, or is
         /// connected to a server that does not allow port forwarding.</exception>
-        ushort GetPrivateInternetAccessForwardedPort();
+        ushort getPrivateInternetAccessForwardedPort();
 
     }
 

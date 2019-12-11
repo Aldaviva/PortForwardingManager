@@ -14,10 +14,10 @@ namespace PortForwardingManager.PIA {
     /// </summary>
     public class LogReadingPrivateInternetAccessServiceImpl: PrivateInternetAccessService {
 
-        public ushort GetPrivateInternetAccessForwardedPort() {
+        public ushort getPrivateInternetAccessForwardedPort() {
             string[] logFilenames = {
-                Path.Combine(PrivateInternetAccessData.DataDirectory, "daemon.log"), // most recent, rolls over faster, smaller (~300 KB)
-                Path.Combine(PrivateInternetAccessData.DataDirectory, "daemon.log.old") // less recent, larger (~4 MB)
+                Path.Combine(PrivateInternetAccessData.dataDirectory, "daemon.log"), // most recent, rolls over faster, smaller (~300 KB)
+                Path.Combine(PrivateInternetAccessData.dataDirectory, "daemon.log.old") // less recent, larger (~4 MB)
             };
 
             foreach (string logFileName in logFilenames) {
@@ -32,7 +32,7 @@ namespace PortForwardingManager.PIA {
                     throw new PrivateInternetAccessException.NoDaemonLogFile();
                 }
 
-                Match match = PrivateInternetAccessData.LogPattern.Match(logFileContents);
+                Match match = PrivateInternetAccessData.LOG_PATTERN.Match(logFileContents);
                 if (match.Success) {
                     int forwardedPortNumber = int.Parse(match.Groups[1].Value);
                     if (forwardedPortNumber > 0) {

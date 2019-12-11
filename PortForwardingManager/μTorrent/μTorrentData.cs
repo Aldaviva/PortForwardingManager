@@ -5,11 +5,11 @@ namespace PortForwardingManager.μTorrent
 {
     public class μTorrentData
     {
-        internal virtual string ExecutableFilename => @"uTorrent.exe";
-        internal virtual string SettingsFilename => @"settings.dat";
-        internal virtual string SettingsKeyListeningPort => @"bind_port";
-        public virtual string InstallationDirectory => Environment.ExpandEnvironmentVariables(@"%ProgramFiles(x86)%\uTorrent\");
-        internal string ExecutableBasename => Path.GetFileNameWithoutExtension(ExecutableFilename);
-        internal string AbsoluteExecutablePath => Path.Combine(InstallationDirectory, ExecutableFilename);
+        internal virtual string executableFilename => @"uTorrent.exe";
+        internal virtual string settingsFilename => @"settings.dat";
+        internal virtual string settingsKeyListeningPort => @"bind_port";
+        public virtual string installationDirectory => Environment.ExpandEnvironmentVariables(@"%ProgramFiles(x86)%\uTorrent\");
+        internal string executableBasename => Path.GetFileNameWithoutExtension(executableFilename);
+        internal string absoluteExecutablePath => Path.Combine(installationDirectory, executableFilename);
     }
 }

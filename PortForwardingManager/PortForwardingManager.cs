@@ -14,24 +14,24 @@ namespace PortForwardingManager {
 
         public static void Main(string[] args) {
             Application.EnableVisualStyles();
-            new PortForwardingManager().UpdateSettingsAndLaunch(args);
+            new PortForwardingManager().updateSettingsAndLaunch(args);
         }
 
-        internal void UpdateSettingsAndLaunch(IEnumerable<string> args) {
-            if (!μTorrentService.IsμTorrentAlreadyRunning()) {
+        internal void updateSettingsAndLaunch(IEnumerable<string> args) {
+            if (!μTorrentService.isμTorrentAlreadyRunning()) {
                 try {
-                    ushort listeningPort = PrivateInternetAccessService.GetPrivateInternetAccessForwardedPort();
-                    μTorrentService.SetμTorrentListeningPort(listeningPort);
+                    ushort listeningPort = PrivateInternetAccessService.getPrivateInternetAccessForwardedPort();
+                    μTorrentService.setμTorrentListeningPort(listeningPort);
                 } catch (PrivateInternetAccessException.UnknownForwardedPort) {
-                    ErrorReportingService.ReportError("Error reading PIA forwarded port",
+                    ErrorReportingService.reportError("Error reading PIA forwarded port",
                         "Could not read forwarded port from Private Internet Access control program.\r\n\r\n" +
                         "Make sure Private Internet Access v1.6 or later is installed.", MessageBoxIcon.Warning);
                 } catch (PrivateInternetAccessException.NoDaemonLogFile) {
-                    ErrorReportingService.ReportError("PIA debug logging is disabled",
+                    ErrorReportingService.reportError("PIA debug logging is disabled",
                         "Failed to read log file.\r\n\r\nMake sure Debug Logging is enabled on the Help page of PIA's Settings.",
                         MessageBoxIcon.Warning);
                 } catch (PrivateInternetAccessException.PortForwardingDisabled) {
-                    ErrorReportingService.ReportError("PIA port forwarding is disabled",
+                    ErrorReportingService.reportError("PIA port forwarding is disabled",
                         "Port forwarding is disabled in Private Internet Access.\r\n\r\n" +
                         "Make sure PIA has \"Request port forwarding\" enabled on the Network page of PIA's settings, " +
                         "and connect to one of the servers that supports port forwarding, like Toronto or Vancouver.",
@@ -40,9 +40,9 @@ namespace PortForwardingManager {
             }
 
             try {
-                μTorrentService.LaunchμTorrent(args);
+                μTorrentService.launchμTorrent(args);
             } catch (FileNotFoundException e) {
-                ErrorReportingService.ReportError("Error starting μTorrent",
+                ErrorReportingService.reportError("Error starting μTorrent",
                     $"μTorrent could not be started because the file {e.FileName} was not found.\r\n\r\n" +
                     "Make sure μTorrent is installed in that directory.", MessageBoxIcon.Error);
             }
