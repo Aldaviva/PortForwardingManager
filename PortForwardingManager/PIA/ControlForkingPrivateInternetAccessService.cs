@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Windows.Forms;
 
 namespace PortForwardingManager.PIA {
 
@@ -17,8 +18,8 @@ namespace PortForwardingManager.PIA {
 
         private static string piaCtlPath => Path.Combine(PrivateInternetAccessData.InstallationDirectory, "piactl.exe");
 
-        public ushort GetPrivateInternetAccessForwardedPort() {
-            Process piaCtlProcess = Process.Start(new ProcessStartInfo(piaCtlPath, "get forwardedport") {
+        public ushort getPrivateInternetAccessForwardedPort() {
+            Process piaCtlProcess = Process.Start(new ProcessStartInfo(piaCtlPath, "get portforward") {
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
                 CreateNoWindow = true
@@ -34,6 +35,8 @@ namespace PortForwardingManager.PIA {
                 case "Inactive":
                 case "Attempting":
                     throw new PrivateInternetAccessException.PortForwardingDisabled();
+                case "Error":
+                    throw new PrivateInternetAccessException.UnknownForwardedPort();
                 default:
                     try {
                         return Convert.ToUInt16(stdOutLine);
@@ -43,6 +46,7 @@ namespace PortForwardingManager.PIA {
                         throw new PrivateInternetAccessException.UnknownForwardedPort();
                     }
             }
+
         }
 
     }
