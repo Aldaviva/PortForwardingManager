@@ -53,7 +53,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ListeningPortEditors\ConfigurationFileListeningPortEditor.cs" />
+    <Compile Include="ListeningPortEditors\ListeningPortEditor.cs" />
+    <Compile Include="PiaForwardedPortMonitor.cs" />
     <Compile Include="PrivateInternetAccessException.cs" />
+    <Compile Include="QbittorrentManager.cs" />
     <Compile Include="Service.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -62,6 +66,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ListeningPortEditors\WebApiListeningPortEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -79,5 +84,6 @@
       <Version>12.0.3</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
