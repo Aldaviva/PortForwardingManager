@@ -4,30 +4,28 @@ using System;
 using System.ServiceProcess;
 using System.Threading;
 
-namespace PortForwardingService {
+namespace PortForwardingService;
 
-    internal static class Program {
+internal static class Program {
 
-        private static void Main(string[] args) {
-            var service = new Service();
+    private static void Main(string[] args) {
+        Service service = new();
 
-            if (Environment.UserInteractive) {
-                var unblockMainThread = new ManualResetEvent(false);
+        if (Environment.UserInteractive) {
+            ManualResetEvent unblockMainThread = new(false);
 
-                Console.CancelKeyPress += delegate(object sender, ConsoleCancelEventArgs eventArgs) {
-                    eventArgs.Cancel = true;
-                    service.onStop();
-                    unblockMainThread.Set();
-                };
+            Console.CancelKeyPress += delegate(object _, ConsoleCancelEventArgs eventArgs) {
+                eventArgs.Cancel = true;
+                service.onStop();
+                unblockMainThread.Set();
+            };
 
-                service.onStart(args);
+            service.onStart(args);
 
-                unblockMainThread.WaitOne(); //block while service runs, then exit once user hits Ctrl+C
-            } else {
-                ServiceBase.Run(service);
-            }
+            unblockMainThread.WaitOne(); //block while service runs, then exit once user hits Ctrl+C
+        } else {
+            ServiceBase.Run(service);
         }
-
     }
 
 }

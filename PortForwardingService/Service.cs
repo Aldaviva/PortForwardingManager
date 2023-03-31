@@ -3,44 +3,42 @@
 using System;
 using System.ServiceProcess;
 
-namespace PortForwardingService {
+namespace PortForwardingService;
 
-    public partial class Service: ServiceBase {
+public partial class Service: ServiceBase {
 
-        private readonly PiaForwardedPortMonitor piaForwardedPortMonitor = new PiaForwardedPortMonitor();
-        private readonly QbittorrentManager qBittorrentManager = new QbittorrentManager();
+    private readonly PiaForwardedPortMonitor piaForwardedPortMonitor = new();
+    private readonly QbittorrentManager      qBittorrentManager      = new();
 
-        public Service() {
-            InitializeComponent();
-        }
+    public Service() {
+        InitializeComponent();
+    }
 
-        protected override void OnStart(string[] args) {
-            piaForwardedPortMonitor.forwardedPort.PropertyChanged += (sender, eventArgs) => {
-                Console.WriteLine($"PIA forwarded port changed to {eventArgs.NewValue?.ToString() ?? "null"}");
+    protected override void OnStart(string[] args) {
+        piaForwardedPortMonitor.forwardedPort.PropertyChanged += (_, eventArgs) => {
+            Console.WriteLine($"PIA forwarded port changed to {eventArgs.NewValue?.ToString() ?? "null"}");
 
-                ushort? qBittorrentListeningPort = qBittorrentManager.getQbittorrentConfigurationListeningPort();
+            ushort? qBittorrentListeningPort = qBittorrentManager.getQbittorrentConfigurationListeningPort();
 
-                if (eventArgs.NewValue is ushort piaForwardedPort && piaForwardedPort != qBittorrentListeningPort) {
-                    qBittorrentManager.setQbittorrentListeningPort(piaForwardedPort);
-                }
-            };
+            if (eventArgs.NewValue is { } piaForwardedPort && piaForwardedPort != qBittorrentListeningPort) {
+                qBittorrentManager.setQbittorrentListeningPort(piaForwardedPort);
+            }
+        };
 
-            piaForwardedPortMonitor.listenForPiaPortForwardChanges();
-            Console.WriteLine("Listening for forwarded port changes from PIA...");
-        }
+        piaForwardedPortMonitor.listenForPiaPortForwardChanges();
+        Console.WriteLine("Listening for forwarded port changes from PIA...");
+    }
 
-        protected override void OnStop() {
-            piaForwardedPortMonitor.Dispose();
-        }
+    protected override void OnStop() {
+        piaForwardedPortMonitor.Dispose();
+    }
 
-        internal void onStart(string[] args) {
-            OnStart(args);
-        }
+    internal void onStart(string[] args) {
+        OnStart(args);
+    }
 
-        internal void onStop() {
-            OnStop();
-        }
-
+    internal void onStop() {
+        OnStop();
     }
 
 }

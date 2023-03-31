@@ -5,30 +5,33 @@ using System.Diagnostics;
 using System.IO;
 using PortForwardingService.ListeningPortEditors;
 
-namespace PortForwardingService {
+namespace PortForwardingService;
 
-    public class QbittorrentManager {
+public class QbittorrentManager {
 
-        private readonly ListeningPortEditor webApiListeningPortEditor = new WebApiListeningPortEditor();
-        private readonly ListeningPortEditor configurationFileListeningPortEditor = new ConfigurationFileListeningPortEditor();
+    private readonly ListeningPortEditor webApiListeningPortEditor            = new WebApiListeningPortEditor();
+    private readonly ListeningPortEditor configurationFileListeningPortEditor = new ConfigurationFileListeningPortEditor();
 
-        private readonly string qBittorrentExecutablePath =
-            Environment.ExpandEnvironmentVariables(@"%programfiles%\qBittorrent\qbittorrent.exe");
+    private readonly string qBittorrentExecutablePath =
+        Environment.ExpandEnvironmentVariables(@"%programfiles%\qBittorrent\qbittorrent.exe");
 
-        public ushort? getQbittorrentConfigurationListeningPort() => configurationFileListeningPortEditor.getListeningPort();
+    public ushort? getQbittorrentConfigurationListeningPort() => configurationFileListeningPortEditor.getListeningPort();
 
-        public void setQbittorrentListeningPort(ushort listeningPort) {
-            ListeningPortEditor listeningPortEditor = isQbittorrentRunning()
-                ? webApiListeningPortEditor
-                : configurationFileListeningPortEditor;
+    public void setQbittorrentListeningPort(ushort listeningPort) {
+        ListeningPortEditor listeningPortEditor = isQbittorrentRunning()
+            ? webApiListeningPortEditor
+            : configurationFileListeningPortEditor;
 
-            listeningPortEditor.setListeningPort(listeningPort);
+        listeningPortEditor.setListeningPort(listeningPort);
+    }
+
+    private bool isQbittorrentRunning() {
+        Process[] qBittorrentProcesses = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(qBittorrentExecutablePath));
+        foreach (Process process in qBittorrentProcesses) {
+            process.Dispose();
         }
 
-        private bool isQbittorrentRunning() {
-            return Process.GetProcessesByName(Path.GetFileNameWithoutExtension(qBittorrentExecutablePath)).Length > 0;
-        }
-
+        return qBittorrentProcesses.Length > 0;
     }
 
 }

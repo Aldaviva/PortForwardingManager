@@ -2,14 +2,12 @@
 
 using System.Threading.Tasks;
 
-namespace PortForwardingService.ListeningPortEditors {
+namespace PortForwardingService.ListeningPortEditors; 
 
-    internal interface ListeningPortEditor {
+internal interface ListeningPortEditor {
 
-        Task setListeningPort(ushort listeningPort);
+    Task setListeningPort(ushort listeningPort);
 
-        ushort? getListeningPort();
-
-    }
+    ushort? getListeningPort();
 
 }

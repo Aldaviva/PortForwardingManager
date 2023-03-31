@@ -2,16 +2,14 @@
 
 using System;
 
-namespace PortForwardingService {
+namespace PortForwardingService; 
 
-    public class PrivateInternetAccessException: Exception {
+public class PrivateInternetAccessException: Exception {
 
-        private PrivateInternetAccessException() { }
+    private PrivateInternetAccessException() { }
 
-        public class UnknownForwardedPort: PrivateInternetAccessException { }
+    public class UnknownForwardedPort: PrivateInternetAccessException { }
 
-        public class PortForwardingDisabled: PrivateInternetAccessException { }
-
-    }
+    public class PortForwardingDisabled: PrivateInternetAccessException { }
 
 }

@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "dependencies": {
+    ".NETFramework,Version=v4.8": {
+      "ini-parser": {
+        "type": "Direct",
+        "requested": "[2.5.2, )",
+        "resolved": "2.5.2",
+        "contentHash": "hp3gKmC/14+6eKLgv7Jd1Z7OV86lO+tNfOXr/stQbwmRhdQuXVSvrRAuAe7G5+lwhkov0XkqZ8/bn1PYWMx6eg=="
+      },
+      "KoKo": {
+        "type": "Direct",
+        "requested": "[2.2.0, )",
+        "resolved": "2.2.0",
+        "contentHash": "8sgJYZINKgsuRYlvuuiXw+3GmheMd7XZO11ve9czTrHwd0rVIRSY0kLPQOkT3kxwILhEkNFXEK44pJy9hDF9Ww=="
+      },
+      "Newtonsoft.Json": {
+        "type": "Direct",
+        "requested": "[13.0.3, )",
+        "resolved": "13.0.3",
+        "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
+      }
+    },
+    ".NETFramework,Version=v4.8/win": {},
+    ".NETFramework,Version=v4.8/win-x64": {},
+    ".NETFramework,Version=v4.8/win-x86": {}
+  }
+}
