@@ -1,1 +1,0 @@
-﻿This folder represents the data directory of a PIA installation that does not have debug logging enabled, so there is no daemon.log file here.
