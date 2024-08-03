@@ -1,14 +1,14 @@
 ﻿#nullable enable
 
-using System;
-using System.Text;
-using System.Threading.Tasks;
 using IniParser;
 using IniParser.Model;
 using IniParser.Model.Configuration;
 using IniParser.Parser;
+using System;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace PortForwardingService.ListeningPortEditors;
+namespace PortForwardingService.qBittorrent.ListeningPortEditors;
 
 internal class ConfigurationFileListeningPortEditor: ListeningPortEditor {
 
@@ -30,9 +30,9 @@ internal class ConfigurationFileListeningPortEditor: ListeningPortEditor {
         return Task.CompletedTask;
     }
 
-    public ushort? getListeningPort() {
+    public Task<ushort?> getListeningPort() {
         IniData configContents = readConfigurationFile();
-        return Convert.ToUInt16(configContents[SECTION_NAME][LISTENING_PORT_ENTRY_NAME]);
+        return Task.FromResult<ushort?>(Convert.ToUInt16(configContents[SECTION_NAME][LISTENING_PORT_ENTRY_NAME]));
     }
 
     private IniData readConfigurationFile() {

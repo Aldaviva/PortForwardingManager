@@ -2,12 +2,12 @@
 
 using System.Threading.Tasks;
 
-namespace PortForwardingService.ListeningPortEditors; 
+namespace PortForwardingService.qBittorrent.ListeningPortEditors;
 
 internal interface ListeningPortEditor {
 
     Task setListeningPort(ushort listeningPort);
 
-    ushort? getListeningPort();
+    Task<ushort?> getListeningPort();
 
 }

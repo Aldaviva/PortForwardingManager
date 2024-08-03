@@ -12,7 +12,7 @@ internal static class Program {
         Service service = new();
 
         if (Environment.UserInteractive) {
-            ManualResetEvent unblockMainThread = new(false);
+            ManualResetEventSlim unblockMainThread = new(false);
 
             Console.CancelKeyPress += delegate(object _, ConsoleCancelEventArgs eventArgs) {
                 eventArgs.Cancel = true;
@@ -22,7 +22,7 @@ internal static class Program {
 
             service.onStart(args);
 
-            unblockMainThread.WaitOne(); //block while service runs, then exit once user hits Ctrl+C
+            unblockMainThread.Wait(); //block while service runs, then exit once user hits Ctrl+C
         } else {
             ServiceBase.Run(service);
         }

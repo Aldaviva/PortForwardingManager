@@ -1,11 +1,11 @@
 ﻿#nullable enable
 
+using KoKo.Property;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using KoKo.Property;
 
-namespace PortForwardingService;
+namespace PortForwardingService.PrivateInternetAccess;
 
 public class PiaForwardedPortMonitor: IDisposable {
 

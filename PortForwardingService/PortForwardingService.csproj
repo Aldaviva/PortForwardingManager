@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{BC93B5EA-E5FF-465D-9829-D24C7B05EF1B}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>PortForwardingService</RootNamespace>
     <AssemblyName>PortForwardingService</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
@@ -13,6 +13,8 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <LangVersion>latest</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -23,8 +25,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,7 +34,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -49,11 +48,14 @@
     <Reference Include="System.ServiceProcess" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ListeningPortEditors\ConfigurationFileListeningPortEditor.cs" />
-    <Compile Include="ListeningPortEditors\ListeningPortEditor.cs" />
-    <Compile Include="PiaForwardedPortMonitor.cs" />
-    <Compile Include="PrivateInternetAccessException.cs" />
-    <Compile Include="QbittorrentManager.cs" />
+    <Compile Include="qBittorrent\ListeningPortEditors\ConfigurationFileListeningPortEditor.cs" />
+    <Compile Include="qBittorrent\ListeningPortEditors\ListeningPortEditor.cs" />
+    <Compile Include="qBittorrent\Data\Preferences.cs" />
+    <Compile Include="qBittorrent\QbittorrentClient.cs" />
+    <Compile Include="PrivateInternetAccess\PiaForwardedPortMonitor.cs" />
+    <Compile Include="PrivateInternetAccess\PrivateInternetAccessException.cs" />
+    <Compile Include="qBittorrent\QbittorrentManager.cs" />
+    <Compile Include="qBittorrent\Data\TransferInfo.cs" />
     <Compile Include="Service.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -62,7 +64,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ListeningPortEditors\WebApiListeningPortEditor.cs" />
+    <Compile Include="qBittorrent\ListeningPortEditors\WebApiListeningPortEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

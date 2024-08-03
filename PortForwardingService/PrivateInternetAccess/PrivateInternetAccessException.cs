@@ -1,8 +1,6 @@
-﻿#nullable enable
+﻿using System;
 
-using System;
-
-namespace PortForwardingService; 
+namespace PortForwardingService.PrivateInternetAccess;
 
 public class PrivateInternetAccessException: Exception {
 
