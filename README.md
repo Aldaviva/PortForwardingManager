@@ -28,3 +28,17 @@ Integrate the [qBittorrent](https://www.qbittorrent.org) BitTorrent client with 
 1. Go to Properties › Log On, choose This account, and type in your Windows username and password.
     - This allows the service to edit the `qBittorrent.ini` configuration file in your user profile directory, which is used to set the listening port when qBittorrent is not running.
 1. Start the service.
+
+## Configuration
+1. [Enable VPN port forwarding.](https://helpdesk.privateinternetaccess.com/kb/articles/how-do-i-enable-port-forwarding-on-my-vpn)
+    - In the Private Internet Access desktop client, connect to a VPN server that allows port forwarding (does not have an ⇍ icon in the server list).
+    - Enable Settings › Network › Request Port Forwarding.
+1. Open qBittorrent › Tools › Options.
+    - Disable Connection › Use UPnP / NAT-PMP port forwarding from my router.
+    - Set Advanced › qBittorrent Section › Network Interface to the PIA virtual network interface.
+        - If you're not sure which one it is, open `ncpa.cpl` and rename the connection that uses the Private Internet Access Network Adapter to a recognizable name like "PIA".
+    - Enable Web UI › Web User Interface.
+    - Set Web UI › Port to 8080.
+    - Enable Web UI › Bypass authentication for clients on localhost.
+    - Disable Web UI › Use UPnP / NAT-PMP to forward the port from my router.
+    - Disable Web UI > Use HTTPS instead of HTTP.
