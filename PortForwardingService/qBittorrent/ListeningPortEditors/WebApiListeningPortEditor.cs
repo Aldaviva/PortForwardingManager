@@ -10,7 +10,7 @@ namespace PortForwardingService.qBittorrent.ListeningPortEditors;
 internal class WebApiListeningPortEditor(QbittorrentClient client): ListeningPortEditor {
 
     public async Task setListeningPort(ushort listeningPort) {
-        await client.send(HttpMethod.Post, "app/setPreferences", new Preferences { listeningPort = listeningPort });
+        (await client.send(HttpMethod.Post, "app/setPreferences", new Preferences { listeningPort = listeningPort })).Dispose();
 
         Console.WriteLine($"Set qBittorrent listening port to {listeningPort} using Web API.");
     }

@@ -1,32 +1,33 @@
 ﻿#nullable enable
-using Newtonsoft.Json;
+
+using System.Text.Json.Serialization;
 
 namespace PortForwardingService.qBittorrent.Data;
 
 internal class TransferInfo {
 
-    [JsonProperty("connection_status")]
+    [JsonPropertyName("connection_status")]
     public ConnectionStatus connectionStatus { get; set; }
 
-    [JsonProperty("dht_nodes")]
+    [JsonPropertyName("dht_nodes")]
     public uint dhtNodes { get; set; }
 
-    [JsonProperty("dl_info_data")]
+    [JsonPropertyName("dl_info_data")]
     public ulong dlInfoData { get; set; }
 
-    [JsonProperty("dl_info_speed")]
+    [JsonPropertyName("dl_info_speed")]
     public uint dlInfoSpeed { get; set; }
 
-    [JsonProperty("dl_rate_limit")]
+    [JsonPropertyName("dl_rate_limit")]
     public uint dlRateLimit { get; set; }
 
-    [JsonProperty("up_info_data")]
+    [JsonPropertyName("up_info_data")]
     public ulong upInfoData { get; set; }
 
-    [JsonProperty("up_info_speed")]
+    [JsonPropertyName("up_info_speed")]
     public uint upInfoSpeed { get; set; }
 
-    [JsonProperty("up_rate_limit")]
+    [JsonPropertyName("up_rate_limit")]
     public uint upRateLimit { get; set; }
 
     internal enum ConnectionStatus {

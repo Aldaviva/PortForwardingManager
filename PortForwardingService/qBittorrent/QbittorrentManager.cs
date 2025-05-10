@@ -9,6 +9,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Unfucked;
 
 namespace PortForwardingService.qBittorrent;
 
@@ -51,19 +52,23 @@ public class QbittorrentManager: IDisposable {
     public void listenForSocketErrors() {
         timer = new Timer(async _ => {
             if (isQbittorrentRunning()) {
-                TransferInfo? transferInfo = await qbittorrentClient.send<TransferInfo>(HttpMethod.Get, "transfer/info");
+                try {
+                    TransferInfo? transferInfo = await qbittorrentClient.send<TransferInfo>(HttpMethod.Get, "transfer/info");
 
-                if (transferInfo?.connectionStatus is not (TransferInfo.ConnectionStatus.CONNECTED or null) && piaForwardedPortMonitor.forwardedPort.Value is { } correctListeningPort) {
-                    Console.WriteLine(
-                        $"qBittorrent connection state is {transferInfo.connectionStatus} instead of {TransferInfo.ConnectionStatus.CONNECTED}, which means it likely failed to listen on the given IP address and port.");
-                    ushort temporaryListeningPort = (ushort) (correctListeningPort < ushort.MaxValue ? correctListeningPort + 1 : correctListeningPort - 1);
-                    Console.WriteLine($"Setting qBittorrent listening port to {temporaryListeningPort} and then to {correctListeningPort} in order to try to fix the socket listening error.");
+                    if (transferInfo?.connectionStatus is not (TransferInfo.ConnectionStatus.CONNECTED or null) && piaForwardedPortMonitor.forwardedPort.Value is { } correctListeningPort) {
+                        Console.WriteLine(
+                            $"qBittorrent connection state is {transferInfo.connectionStatus} instead of {TransferInfo.ConnectionStatus.CONNECTED}, which means it likely failed to listen on the given IP address and port.");
+                        ushort temporaryListeningPort = (ushort) (correctListeningPort < ushort.MaxValue ? correctListeningPort + 1 : correctListeningPort - 1);
+                        Console.WriteLine($"Setting qBittorrent listening port to {temporaryListeningPort} and then to {correctListeningPort} in order to try to fix the socket listening error.");
 
-                    await webApiListeningPortEditor.setListeningPort(temporaryListeningPort);
-                    await Task.Delay(TimeSpan.FromSeconds(3));
-                    await webApiListeningPortEditor.setListeningPort(correctListeningPort);
-                } else {
-                    Console.WriteLine($"qBittorrent connection status is {transferInfo?.connectionStatus}, which does not indicate a socket error, ignoring.");
+                        await webApiListeningPortEditor.setListeningPort(temporaryListeningPort);
+                        await Task.Delay(TimeSpan.FromSeconds(3));
+                        await webApiListeningPortEditor.setListeningPort(correctListeningPort);
+                    } else {
+                        Console.WriteLine($"qBittorrent connection status is {transferInfo?.connectionStatus}, which does not indicate a socket error, ignoring.");
+                    }
+                } catch (HttpRequestException e) {
+                    Console.WriteLine("Failed to check qBittorrent connection state due to error: " + e.MessageChain());
                 }
             } else {
                 Console.WriteLine("qBittorrent is not running, not checking for socket errors.");

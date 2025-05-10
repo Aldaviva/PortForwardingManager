@@ -1,6 +1,6 @@
 ﻿#nullable enable
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace PortForwardingService.qBittorrent.Data;
 
@@ -8,7 +8,7 @@ namespace PortForwardingService.qBittorrent.Data;
 // See full list at https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-(qBittorrent-4.1)#get-application-preferences
 internal class Preferences {
 
-    [JsonProperty("listen_port")]
+    [JsonPropertyName("listen_port")]
     public ushort listeningPort { get; set; }
 
 }
