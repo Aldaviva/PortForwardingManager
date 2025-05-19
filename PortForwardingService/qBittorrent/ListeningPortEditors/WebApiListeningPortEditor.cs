@@ -1,7 +1,7 @@
-﻿#nullable enable
+#nullable enable
 
+using NLog;
 using PortForwardingService.qBittorrent.Data;
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -9,10 +9,12 @@ namespace PortForwardingService.qBittorrent.ListeningPortEditors;
 
 internal class WebApiListeningPortEditor(QbittorrentClient client): ListeningPortEditor {
 
+    private static readonly Logger LOGGER = LogManager.GetLogger(typeof(WebApiListeningPortEditor).FullName);
+
     public async Task setListeningPort(ushort listeningPort) {
         (await client.send(HttpMethod.Post, "app/setPreferences", new Preferences { listeningPort = listeningPort })).Dispose();
 
-        Console.WriteLine($"Set qBittorrent listening port to {listeningPort} using Web API.");
+        LOGGER.Info("Set qBittorrent listening port to {listeningPort} using Web API.", listeningPort);
     }
 
     public async Task<ushort?> getListeningPort() {

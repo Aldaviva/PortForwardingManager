@@ -1,4 +1,4 @@
-﻿#nullable enable
+#nullable enable
 
 using KoKo.Property;
 using System;
@@ -12,8 +12,9 @@ public class PiaForwardedPortMonitor: IDisposable {
     public Property<ushort?> forwardedPort => piaForwardedPort;
     private readonly StoredProperty<ushort?> piaForwardedPort = new();
 
-    private          Process? piaMonitorProcess;
-    private volatile bool     isShutDown;
+    private Process? piaMonitorProcess;
+
+    private volatile bool isShutDown;
 
     public void listenForPiaPortForwardChanges() {
         Task.Run(() => {

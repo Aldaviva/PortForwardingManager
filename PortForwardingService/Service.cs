@@ -1,13 +1,15 @@
-﻿#nullable enable
+#nullable enable
 
+using NLog;
 using PortForwardingService.PrivateInternetAccess;
 using PortForwardingService.qBittorrent;
-using System;
 using System.ServiceProcess;
 
 namespace PortForwardingService;
 
 public partial class Service: ServiceBase {
+
+    private static readonly Logger LOGGER = LogManager.GetLogger(typeof(Service).FullName);
 
     private readonly PiaForwardedPortMonitor piaForwardedPortMonitor = new();
     private readonly QbittorrentManager      qBittorrentManager;
@@ -19,7 +21,7 @@ public partial class Service: ServiceBase {
 
     protected override void OnStart(string[] args) {
         piaForwardedPortMonitor.forwardedPort.PropertyChanged += async (_, eventArgs) => {
-            Console.WriteLine($"PIA forwarded port changed to {eventArgs.NewValue?.ToString() ?? "null"}");
+            LOGGER.Info("PIA forwarded port changed to {newPort}", eventArgs.NewValue?.ToString() ?? "null");
 
             ushort? qBittorrentListeningPort = await qBittorrentManager.getQbittorrentConfigurationListeningPort();
 
@@ -29,14 +31,16 @@ public partial class Service: ServiceBase {
         };
 
         piaForwardedPortMonitor.listenForPiaPortForwardChanges();
-        Console.WriteLine("Listening for forwarded port changes from PIA...");
+        LOGGER.Info("Listening for forwarded port changes from PIA...");
 
         qBittorrentManager.listenForSocketErrors();
-        Console.WriteLine("Listening for socket errors from qBittorrent...");
+        LOGGER.Info("Listening for socket errors from qBittorrent...");
     }
 
     protected override void OnStop() {
         piaForwardedPortMonitor.Dispose();
+        qBittorrentManager.Dispose();
+        LogManager.Shutdown();
     }
 
     internal void onStart(string[] args) {
