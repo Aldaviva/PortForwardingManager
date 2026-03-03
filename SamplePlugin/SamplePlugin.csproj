@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net48</TargetFramework>
-        <AssemblyName>PortForwardingService.Plugins.$(MSBuildProjectName)</AssemblyName>
+        <AssemblyName>PortForwardingService.Plugins.SamplePlugin</AssemblyName>
         <RootNamespace>$(AssemblyName)</RootNamespace>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
