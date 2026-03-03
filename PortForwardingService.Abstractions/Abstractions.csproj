@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <AssemblyName>PortForwardingService.$(MSBuildProjectName)</AssemblyName>
+        <Version>0.0.0</Version>
+        <Authors>Ben Hutchison</Authors>
+        <Copyright>© 2026 $(Authors)</Copyright>
+        <Company>$(Authors)</Company>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>latest</LangVersion>
+        <PackageProjectUrl>https://github.com/Aldaviva/PortForwardingManager</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Aldaviva/PortForwardingManager.git</RepositoryUrl>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <Description>Interfaces and other abstractions used to write plugins that extend the functionality of PortForwardingService</Description>
+        <PackageTags>PortForwardingService plugin abstraction addin extension</PackageTags>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <IncludeSource>true</IncludeSource>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <RootNamespace>PortForwardingService</RootNamespace>
+        <DevelopmentDependency>true</DevelopmentDependency>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+</Project>
