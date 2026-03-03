@@ -1,25 +1,21 @@
 #nullable enable
 
 using NLog;
-using PortForwardingService.qBittorrent.Data;
-using System.Net.Http;
+using qBittorrent.Client;
+using qBittorrent.Client.Data;
 using System.Threading.Tasks;
 
 namespace PortForwardingService.qBittorrent.ListeningPortEditors;
 
-internal class WebApiListeningPortEditor(QbittorrentClient client): ListeningPortEditor {
+internal class WebApiListeningPortEditor(qBittorrentClient client): ListeningPortEditor {
 
-    private static readonly Logger LOGGER = LogManager.GetLogger(typeof(WebApiListeningPortEditor).FullName);
+    private static readonly Logger LOGGER = LogManager.GetLogger(typeof(WebApiListeningPortEditor).FullName!);
 
     public async Task setListeningPort(ushort listeningPort) {
-        (await client.send(HttpMethod.Post, "app/setPreferences", new Preferences { listeningPort = listeningPort })).Dispose();
-
+        await client.setPreferences(new Preferences { listeningPort = listeningPort });
         LOGGER.Info("Set qBittorrent listening port to {listeningPort} using Web API.", listeningPort);
     }
 
-    public async Task<ushort?> getListeningPort() {
-        Preferences? preferences = await client.send<Preferences>(HttpMethod.Get, "app/preferences");
-        return preferences?.listeningPort;
-    }
+    public async Task<ushort?> getListeningPort() => (await client.getPreferences()).listeningPort;
 
 }

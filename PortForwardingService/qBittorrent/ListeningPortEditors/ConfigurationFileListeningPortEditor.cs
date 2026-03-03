@@ -16,7 +16,7 @@ internal class ConfigurationFileListeningPortEditor: ListeningPortEditor {
     private const string SECTION_NAME              = "Preferences";
     private const string LISTENING_PORT_ENTRY_NAME = @"Connection\PortRangeMin";
 
-    private static readonly Logger LOGGER = LogManager.GetLogger(typeof(ConfigurationFileListeningPortEditor).FullName);
+    private static readonly Logger LOGGER = LogManager.GetLogger(typeof(ConfigurationFileListeningPortEditor).FullName!);
 
     private static readonly string CONFIGURATION_FILE_PATH = Environment.ExpandEnvironmentVariables(@"%appdata%\qBittorrent\qBittorrent.ini");
 

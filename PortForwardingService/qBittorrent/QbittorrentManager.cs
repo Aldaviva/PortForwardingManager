@@ -2,8 +2,9 @@
 
 using NLog;
 using PortForwardingService.PrivateInternetAccess;
-using PortForwardingService.qBittorrent.Data;
 using PortForwardingService.qBittorrent.ListeningPortEditors;
+using qBittorrent.Client;
+using qBittorrent.Client.Data;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -15,11 +16,11 @@ namespace PortForwardingService.qBittorrent;
 
 public class QbittorrentManager: IDisposable {
 
-    private static readonly Logger   LOGGER                      = LogManager.GetLogger(typeof(QbittorrentManager).FullName);
+    private static readonly Logger   LOGGER                      = LogManager.GetLogger(typeof(QbittorrentManager).FullName!);
     private static readonly TimeSpan SOCKET_ERROR_CHECK_INTERVAL = TimeSpan.FromMinutes(3);
 
     private readonly string                  qBittorrentExecutablePath            = Environment.ExpandEnvironmentVariables(@"%programfiles%\qBittorrent\qbittorrent.exe");
-    private readonly QbittorrentClient       qbittorrentClient                    = new();
+    private readonly qBittorrentClient       qBittorrentClient                    = new qBittorrentHttpClient();
     private readonly ListeningPortEditor     configurationFileListeningPortEditor = new ConfigurationFileListeningPortEditor();
     private readonly ListeningPortEditor     webApiListeningPortEditor;
     private readonly PiaForwardedPortMonitor piaForwardedPortMonitor;
@@ -28,7 +29,7 @@ public class QbittorrentManager: IDisposable {
 
     public QbittorrentManager(PiaForwardedPortMonitor piaForwardedPortMonitor) {
         this.piaForwardedPortMonitor = piaForwardedPortMonitor;
-        webApiListeningPortEditor    = new WebApiListeningPortEditor(qbittorrentClient);
+        webApiListeningPortEditor    = new WebApiListeningPortEditor(qBittorrentClient);
     }
 
     public Task<ushort?> getQbittorrentConfigurationListeningPort() => configurationFileListeningPortEditor.getListeningPort();
@@ -54,9 +55,9 @@ public class QbittorrentManager: IDisposable {
         timer = new Timer(async _ => {
             if (isQbittorrentRunning()) {
                 try {
-                    TransferInfo? transferInfo = await qbittorrentClient.send<TransferInfo>(HttpMethod.Get, "transfer/info");
+                    TransferInfo transferInfo = await qBittorrentClient.getTransferInfo();
 
-                    if (transferInfo?.connectionStatus is not (TransferInfo.ConnectionStatus.CONNECTED or null) && piaForwardedPortMonitor.forwardedPort.Value is { } correctListeningPort) {
+                    if (transferInfo.connectionStatus != TransferInfo.ConnectionStatus.CONNECTED && piaForwardedPortMonitor.forwardedPort.Value is { } correctListeningPort) {
                         LOGGER.Info("qBittorrent connection state is {actual} instead of {expected}, which means it likely failed to listen on the given IP address and port.",
                             transferInfo.connectionStatus, TransferInfo.ConnectionStatus.CONNECTED);
                         ushort temporaryListeningPort = (ushort) (correctListeningPort < ushort.MaxValue ? correctListeningPort + 1 : correctListeningPort - 1);
@@ -79,7 +80,7 @@ public class QbittorrentManager: IDisposable {
 
     public void Dispose() {
         timer?.Dispose();
-        qbittorrentClient.Dispose();
+        qBittorrentClient.Dispose();
     }
 
 }
