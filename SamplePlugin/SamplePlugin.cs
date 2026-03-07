@@ -1,5 +1,3 @@
-#nullable enable
-
 namespace PortForwardingService.Plugins.SamplePlugin;
 
 public class SamplePlugin: IPortForwardingServicePlugin, IDisposable {
@@ -14,7 +12,6 @@ public class SamplePlugin: IPortForwardingServicePlugin, IDisposable {
 
     public void Dispose() {
         // TODO: release managed resources here
-        GC.SuppressFinalize(this);
     }
 
 }

@@ -5,7 +5,7 @@ VisualStudioVersion = 18.3.11520.95
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortForwardingService", "PortForwardingService\PortForwardingService.csproj", "{BC93B5EA-E5FF-465D-9829-D24C7B05EF1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractions", "PortForwardingService.Abstractions\Abstractions.csproj", "{28F1CF3C-C8E7-4E8F-AE1B-679AE15E62DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractions", "Abstractions\Abstractions.csproj", "{28F1CF3C-C8E7-4E8F-AE1B-679AE15E62DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SamplePlugin", "SamplePlugin\SamplePlugin.csproj", "{96055CA2-19DA-4B09-AFC8-76F8B8BE821E}"
 EndProject
