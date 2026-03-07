@@ -10,9 +10,9 @@
       },
       "KoKo": {
         "type": "Direct",
-        "requested": "[2.3.0-beta1, )",
-        "resolved": "2.3.0-beta1",
-        "contentHash": "kj8ns45SwuLko+xPkihSueRH6dg4XDgvb2vwArS4pPYkoUv5GWao6N3tGgs3m24Yo6jr5n32uMTUkQujSpfuYQ=="
+        "requested": "[2.3.0, )",
+        "resolved": "2.3.0",
+        "contentHash": "WHXfLM0aaubLgNf/Fy2+zd9dXbnhZN7erUpili5gmJYIliarasE9e5m3XOhw+jfl7l/Xnn74wtQskHLG31d2Fw=="
       },
       "NLog": {
         "type": "Direct",
@@ -28,9 +28,9 @@
       },
       "PortForwardingService.Abstractions": {
         "type": "Direct",
-        "requested": "[0.0.0, )",
-        "resolved": "0.0.0",
-        "contentHash": "GNrC7dx4XrtXR8Hira+LIap6uX/lKWQa41qGICWXvNEHtK8Q1E6YWZHwm9mMytm//CweGqM7uUHlVVsF9txhTQ=="
+        "requested": "[0.0.1, )",
+        "resolved": "0.0.1",
+        "contentHash": "bDz24eq2n90We5TqMq+WEkvjMpCSopoXNy3I2Mv2H/b2xWeD1U/VH1fe0nEePo7haYhIxetjHB8ajVOAv+w4Jg=="
       },
       "qBittorrentApiClient": {
         "type": "Direct",
@@ -139,6 +139,10 @@
           "Unfucked": "0.0.1-beta.29"
         }
       }
-    }
+    },
+    ".NETFramework,Version=v4.8/win": {},
+    ".NETFramework,Version=v4.8/win-arm64": {},
+    ".NETFramework,Version=v4.8/win-x64": {},
+    ".NETFramework,Version=v4.8/win-x86": {}
   }
 }

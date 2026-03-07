@@ -1,5 +1,6 @@
 #nullable enable
 
+using PortForwardingService.Logging;
 using System;
 using System.ServiceProcess;
 using System.Threading;

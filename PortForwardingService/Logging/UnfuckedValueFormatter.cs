@@ -6,13 +6,13 @@ using NLog.MessageTemplates;
 using System;
 using System.Text;
 
-namespace PortForwardingService;
+namespace PortForwardingService.Logging;
 
 /// <summary>
 /// When logging strings to NLog using structured logging, don't surround them with quotation marks, because it looks stupid
 /// </summary>
 /// <param name="parent">Built-in <see cref="ValueFormatter"/></param>
-internal class UnfuckedValueFormatter(IValueFormatter parent): IValueFormatter {
+internal sealed class UnfuckedValueFormatter(IValueFormatter parent): IValueFormatter {
 
     public static void register() {
         ServiceRepository services = LogManager.Configuration!.LogFactory.ServiceRepository;

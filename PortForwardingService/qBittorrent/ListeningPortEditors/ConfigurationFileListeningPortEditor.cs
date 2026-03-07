@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace PortForwardingService.qBittorrent.ListeningPortEditors;
 
-internal class ConfigurationFileListeningPortEditor: ListeningPortEditor {
+internal sealed class ConfigurationFileListeningPortEditor: ListeningPortEditor {
 
     private const string SECTION_NAME              = "Preferences";
     private const string LISTENING_PORT_ENTRY_NAME = @"Connection\PortRangeMin";

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PortForwardingService.qBittorrent.ListeningPortEditors;
 
-internal class WebApiListeningPortEditor(qBittorrentClient client): ListeningPortEditor {
+internal sealed class WebApiListeningPortEditor(qBittorrentClient client): ListeningPortEditor {
 
     private static readonly Logger LOGGER = LogManager.GetLogger(typeof(WebApiListeningPortEditor).FullName!);
 
