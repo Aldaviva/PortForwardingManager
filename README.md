@@ -45,7 +45,7 @@ Integrate the [qBittorrent](https://www.qbittorrent.org) BitTorrent client with 
 1. Start the service.
 
 ## Configuration
-1. [Enable VPN port forwarding.](https://helpdesk.privateinternetaccess.com/kb/articles/how-do-i-enable-port-forwarding-on-my-vpn)
+1. [Enable VPN port forwarding.](https://helpdesk.privateinternetaccess.com/hc/en-us/articles/46813740976667-Understanding-Advanced-Settings-on-the-Desktop-PIA-Client#h_01KHSERVQNQBYH39RK82965VFC)
     1. In the Private Internet Access desktop client, connect to a VPN server that allows port forwarding (does not have an ⇍ icon in the server list).
     1. Enable Settings › Network › Request Port Forwarding.
     1. Ensure PIA shows a forwarded port number under VPN IP, such as `↩ 12345`. If it doesn't, try reconnecting or choosing a different server.
