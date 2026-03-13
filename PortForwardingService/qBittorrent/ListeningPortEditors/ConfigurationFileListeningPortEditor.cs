@@ -5,9 +5,7 @@ using IniParser.Model;
 using IniParser.Model.Configuration;
 using IniParser.Parser;
 using NLog;
-using System;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PortForwardingService.qBittorrent.ListeningPortEditors;
 

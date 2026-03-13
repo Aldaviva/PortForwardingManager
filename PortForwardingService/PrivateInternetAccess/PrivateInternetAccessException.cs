@@ -1,5 +1,3 @@
-using System;
-
 namespace PortForwardingService.PrivateInternetAccess;
 
 public class PrivateInternetAccessException: Exception {
@@ -9,5 +7,7 @@ public class PrivateInternetAccessException: Exception {
     public class UnknownForwardedPort: PrivateInternetAccessException;
 
     public class PortForwardingDisabled: PrivateInternetAccessException;
+
+    public class PortForwardingFailed: PrivateInternetAccessException;
 
 }

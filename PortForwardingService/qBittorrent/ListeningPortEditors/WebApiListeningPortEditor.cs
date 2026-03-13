@@ -3,7 +3,6 @@
 using NLog;
 using qBittorrent.Client;
 using qBittorrent.Client.Data;
-using System.Threading.Tasks;
 
 namespace PortForwardingService.qBittorrent.ListeningPortEditors;
 

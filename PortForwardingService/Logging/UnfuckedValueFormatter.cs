@@ -3,7 +3,6 @@
 using NLog;
 using NLog.Config;
 using NLog.MessageTemplates;
-using System;
 using System.Text;
 
 namespace PortForwardingService.Logging;

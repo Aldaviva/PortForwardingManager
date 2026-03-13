@@ -1,16 +1,12 @@
 #nullable enable
 
+using Microsoft.Win32;
 using NLog;
 using PortForwardingService.PrivateInternetAccess;
 using PortForwardingService.qBittorrent.ListeningPortEditors;
 using qBittorrent.Client;
 using qBittorrent.Client.Data;
-using System;
 using System.Diagnostics;
-using System.IO;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace PortForwardingService.qBittorrent;
 
@@ -19,7 +15,6 @@ public class QbittorrentManager: IDisposable {
     private static readonly Logger   LOGGER                      = LogManager.GetLogger(typeof(QbittorrentManager).FullName!);
     private static readonly TimeSpan SOCKET_ERROR_CHECK_INTERVAL = TimeSpan.FromMinutes(3);
 
-    private readonly string                  qBittorrentExecutablePath            = Environment.ExpandEnvironmentVariables(@"%programfiles%\qBittorrent\qbittorrent.exe");
     private readonly qBittorrentClient       qBittorrentClient                    = new qBittorrentHttpClient();
     private readonly ListeningPortEditor     configurationFileListeningPortEditor = new ConfigurationFileListeningPortEditor();
     private readonly ListeningPortEditor     webApiListeningPortEditor;
@@ -42,8 +37,14 @@ public class QbittorrentManager: IDisposable {
         await listeningPortEditor.setListeningPort(listeningPort);
     }
 
-    private bool isQbittorrentRunning() {
-        Process[] qBittorrentProcesses = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(qBittorrentExecutablePath));
+    public static string? findExecutableAbsoluteFilename() {
+        if (Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\qBittorrent", "DisplayIcon", null) is not string displayIcon) return null;
+        string filename = Path.GetFullPath(displayIcon.TrimEnd("1234567890").TrimEnd('-').TrimEnd(',').Trim('"').ToString());
+        return File.Exists(filename) ? filename : null;
+    }
+
+    private static bool isQbittorrentRunning() {
+        Process[] qBittorrentProcesses = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(findExecutableAbsoluteFilename()));
         foreach (Process process in qBittorrentProcesses) {
             process.Dispose();
         }
@@ -52,12 +53,12 @@ public class QbittorrentManager: IDisposable {
     }
 
     public void listenForSocketErrors() {
-        timer = new Timer(async _ => {
+        timer = new Timer(async void (_) => {
             if (isQbittorrentRunning()) {
                 try {
                     TransferInfo transferInfo = await qBittorrentClient.getTransferInfo();
 
-                    if (transferInfo.connectionStatus != TransferInfo.ConnectionStatus.CONNECTED && piaForwardedPortMonitor.forwardedPort.Value is { } correctListeningPort) {
+                    if (transferInfo.connectionStatus != TransferInfo.ConnectionStatus.CONNECTED && piaForwardedPortMonitor.forwardedPort.Value is {} correctListeningPort) {
                         LOGGER.Info("qBittorrent connection state is {actual} instead of {expected}, which means it likely failed to listen on the given IP address and port.",
                             transferInfo.connectionStatus, TransferInfo.ConnectionStatus.CONNECTED);
                         ushort temporaryListeningPort = (ushort) (correctListeningPort < ushort.MaxValue ? correctListeningPort + 1 : correctListeningPort - 1);
